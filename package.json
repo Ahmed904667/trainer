@@ -1,0 +1,53 @@
+{
+  "name": "ppl-training-log",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "prisma generate && next build --webpack && node scripts/cache-shell.mjs",
+    "vercel-build": "node scripts/migrate.mjs && npm run build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts",
+    "db:migrate": "prisma migrate deploy",
+    "postinstall": "prisma generate"
+  },
+  "engines": {
+    "node": "22.x"
+  },
+  "dependencies": {
+    "@fontsource-variable/inter": "^5",
+    "@fontsource/barlow-condensed": "^5",
+    "@prisma/adapter-pg": "^7.0.0",
+    "@prisma/client": "^7.0.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2",
+    "lucide-react": "latest",
+    "next": "^16.0.0",
+    "pg": "^8.16.3",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "recharts": "^3",
+    "tailwind-merge": "^3",
+    "zod": "^4"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^22",
+    "@types/pg": "^8",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "dotenv": "^17",
+    "eslint": "^9",
+    "eslint-config-next": "^16.0.0",
+    "prisma": "^7.0.0",
+    "tailwindcss": "^4",
+    "tsx": "^4",
+    "typescript": "^5.9"
+  },
+  "overrides": {
+    "effect": "3.22.5"
+  }
+}

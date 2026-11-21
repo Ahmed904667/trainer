@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+datasource db {
+  provider = "postgresql"
+}
+model Member {
+  id String @id @default(uuid())
+  email String @unique
+  passwordHash String
+  revision Int @default(0)
+  lastChange String?
+  preferences Json?
+  tokens LoginToken[]
+  templates Plan[]
+  customExercises CustomExercise[]
+  sessions Workout[]
+}
+model LoginToken {
+  hash String @id
+  memberId String
+  member Member @relation(fields:[memberId],references:[id],onDelete:Cascade)
+  expiresAt DateTime
+  @@index([memberId])
+}
+model AuthAttempt {
+  key String @id
+  count Int
+  since DateTime
+}
+model Plan {
+  memberId String
+  id String
+  member Member @relation(fields:[memberId],references:[id],onDelete:Cascade)
+  position Int
+  definition Json
+  @@id([memberId,id])
+}
+model CustomExercise {
+  memberId String
+  id String
+  member Member @relation(fields:[memberId],references:[id],onDelete:Cascade)
+  definition Json
+  @@id([memberId,id])
+}
+model Workout {
+  memberId String
+  id String
+  member Member @relation(fields:[memberId],references:[id],onDelete:Cascade)
+  startedAt DateTime
+  active Boolean
+  snapshot Json
+  exercises WorkoutExercise[]
+  @@id([memberId,id])
+  @@index([memberId,startedAt])
+}
+model WorkoutExercise {
+  memberId String
+  workoutId String
+  id String
+  position Int
+  snapshot Json
+  workout Workout @relation(fields:[memberId,workoutId],references:[memberId,id],onDelete:Cascade)
+  sets LoggedSet[]
+  @@id([memberId,workoutId,id])
+}
+model LoggedSet {
+  memberId String
+  workoutId String
+  exerciseId String
+  id String
+  position Int
+  data Json
+  exercise WorkoutExercise @relation(fields:[memberId,workoutId,exerciseId],references:[memberId,workoutId,id],onDelete:Cascade)
+  @@id([memberId,workoutId,exerciseId,id])
+}

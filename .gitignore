@@ -1,0 +1,12 @@
+node_modules
+.next
+.vercel
+.env*
+!.env.example
+*.tsbuildinfo
+next-env.d.ts
+lib/generated
+public/sw.js
+test-results
+playwright-report
+.DS_Store
